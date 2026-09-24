@@ -1,0 +1,8 @@
+body {
+  font-family: "Manrope", sans-serif;
+}
+
+body::selection {
+  background-color: #7c3aed78;
+  color: #ececee;
+}
