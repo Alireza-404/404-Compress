@@ -10,7 +10,7 @@ interface RightSideProps {
   isCompressing: boolean;
   format: "JPG" | "PNG" | "WEBP";
   setFormat: React.Dispatch<React.SetStateAction<"JPG" | "PNG" | "WEBP">>;
-  onCompress: () => void;
+  onCompress: (format?: "JPG" | "PNG" | "WEBP") => void;
   onDownload: () => void;
 }
 
@@ -113,6 +113,7 @@ export default function RightSide({
                     type="button"
                     onClick={() => {
                       setFormat(item);
+                      onCompress(item);
                       setIsOpen(false);
                     }}
                     className={`w-full px-3 py-2 rounded-md text-left text-[11.5px]
@@ -189,7 +190,7 @@ export default function RightSide({
         <button
           type="button"
           disabled={!selectedFile || isCompressing}
-          onClick={onCompress}
+          onClick={() => onCompress()}
           className={`text-xs text-ec bg-primary font-semibold
           flex items-center justify-center gap-x-2 p-4 rounded-lg
           transition-colors duration-200

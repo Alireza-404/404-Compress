@@ -15,6 +15,14 @@ export default function LeftSide({
 }: LeftSideProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  const handleFile = (file: File) => {
+    if (file.size > MAX_SIZE) return;
+
+    if (!ALLOWED_TYPES.includes(file.type)) return;
+
+    onFileSelect(file);
+  };
+
   useEffect(() => {
     if (!selectedFile) return;
 
@@ -42,9 +50,19 @@ export default function LeftSide({
 
       <label
         htmlFor="fileInput"
+        onDragOver={(event) => event.preventDefault()}
+        onDrop={(event) => {
+          event.preventDefault();
+
+          const file = event.dataTransfer.files[0];
+
+          if (!file) return;
+
+          handleFile(file);
+        }}
         className="w-full h-160 bg-[#08090a] border border-dashed
         border-secondary/30 rounded-lg hover:border-secondary/40
-        hover:bg-[#08090a]/75 transition-colors duration-200"
+        hover:bg-[#08090a]/75 transition-colors duration-200 overflow-hidden"
       >
         <input
           type="file"
@@ -55,46 +73,35 @@ export default function LeftSide({
 
             if (!file) return;
 
-            if (file.size > MAX_SIZE) {
-              return;
-            }
-
-            if (!ALLOWED_TYPES.includes(file.type)) {
-              return;
-            }
-
-            onFileSelect(file);
+            handleFile(file);
           }}
         />
 
         {imageUrl ? (
-          <div className="w-full h-full flex items-center justify-between">
+          <div className="w-full h-full flex items-center justify-center p-4 bg-[#08090a]">
             <img
               src={imageUrl}
               alt={selectedFile?.name ?? "Selected image"}
-              className="h-full w-full object-cover"
+              className="max-w-full max-h-full w-auto h-auto object-contain rounded-md select-none"
             />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-y-4 h-full">
             <span
-              className="text-secondary bg-box rounded-lg border 
+              className="text-secondary bg-box rounded-lg border
             border-secondary/20 w-14 h-14 flex items-center justify-center"
             >
               <LucideUpload className="w-5 h-5" />
             </span>
 
-            <span className="text-white text-sm font-medium">
-              Drop an image here
-            </span>
+            <span className="text-white font-medium">Drop an image here</span>
 
             <span className="text-secondary text-xs tracking-wider">
               or click to browse from your device
             </span>
 
             <span className="text-secondary text-[11px] tracking-wider">
-              Maximum recommended file size:{" "}
-              <span className="text-primary">20 MB</span>
+              Maximum file size: <span className="text-primary">20 MB</span>
             </span>
           </div>
         )}

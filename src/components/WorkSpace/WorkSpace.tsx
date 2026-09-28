@@ -9,13 +9,15 @@ export default function WorkSpace() {
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
   const [format, setFormat] = useState<"JPG" | "PNG" | "WEBP">("JPG");
 
-  const imageType =
-    format === "JPG" ? "image/jpeg" : `image/${format.toLowerCase()}`;
-
-  const handleCompress = () => {
+  const handleCompress = (outputformat = format) => {
     if (!selectedFile) return;
 
     setIsCompressing(true);
+
+    const imageType =
+      outputformat === "JPG"
+        ? "image/jpeg"
+        : `image/${outputformat.toLowerCase()}`;
 
     const imageUrl = URL.createObjectURL(selectedFile);
 
@@ -55,6 +57,11 @@ export default function WorkSpace() {
         imageType,
         quality / 100,
       );
+    };
+
+    image.onerror = () => {
+      setIsCompressing(false);
+      URL.revokeObjectURL(imageUrl);
     };
   };
 
