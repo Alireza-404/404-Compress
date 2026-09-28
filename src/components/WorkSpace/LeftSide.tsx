@@ -7,6 +7,7 @@ interface LeftSideProps {
 }
 
 const MAX_SIZE = 20 * 1024 * 1024;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export default function LeftSide({
   selectedFile,
@@ -55,6 +56,10 @@ export default function LeftSide({
             if (!file) return;
 
             if (file.size > MAX_SIZE) {
+              return;
+            }
+
+            if (!ALLOWED_TYPES.includes(file.type)) {
               return;
             }
 
