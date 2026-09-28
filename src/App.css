@@ -13,7 +13,6 @@ body::selection {
   height: 4px;
   border-radius: 999px;
   background: #282c31;
-  cursor: pointer;
 }
 
 .range::-webkit-slider-thumb {
@@ -23,7 +22,6 @@ body::selection {
   border-radius: 50%;
   background: #7c3aed;
   border: 3px solid #0d0f11;
-  cursor: pointer;
 }
 
 .range::-moz-range-thumb {

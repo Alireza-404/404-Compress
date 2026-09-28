@@ -2,13 +2,40 @@ import { useState } from "react";
 import { ChevronDown, LucideArrowRight, LucideDownload } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function RightSide() {
-  const [quality, setQuality] = useState(80);
-  const [format, setFormat] = useState<"JPG" | "PNG" | "WEBP">("JPG");
+interface RightSideProps {
+  selectedFile: File | null;
+  compressedBlob: Blob | null;
+  quality: number;
+  setQuality: React.Dispatch<React.SetStateAction<number>>;
+  isCompressing: boolean;
+  format: "JPG" | "PNG" | "WEBP";
+  setFormat: React.Dispatch<React.SetStateAction<"JPG" | "PNG" | "WEBP">>;
+  onCompress: () => void;
+  onDownload: () => void;
+}
+
+export default function RightSide({
+  selectedFile,
+  compressedBlob,
+  quality,
+  setQuality,
+  isCompressing,
+  format,
+  setFormat,
+  onCompress,
+  onDownload,
+}: RightSideProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const formats = ["JPG", "PNG", "WEBP"] as const;
+
+  const originalSize = selectedFile?.size ?? 0;
+  const compressedSize = compressedBlob?.size ?? 0;
+
+  const reduction =
+    originalSize > 0
+      ? ((originalSize - compressedSize) / originalSize) * 100
+      : 0;
 
   return (
     <div
@@ -27,7 +54,9 @@ export default function RightSide() {
             Quality
           </span>
 
-          <span className="text-ec text-[11.5px] font-medium">{quality}%</span>
+          <span className="text-ec text-[11.5px] font-medium">
+            {format === "PNG" ? "Lossless" : `${quality}%`}
+          </span>
         </div>
 
         <input
@@ -35,8 +64,13 @@ export default function RightSide() {
           min={1}
           max={100}
           value={quality}
+          disabled={format === "PNG"}
           onChange={(e) => setQuality(Number(e.target.value))}
-          className="range"
+          className={`range ${
+            format === "PNG"
+              ? "opacity-50 cursor-not-allowed"
+              : "cursor-pointer"
+          }`}
         />
       </div>
 
@@ -112,21 +146,29 @@ export default function RightSide() {
               <span className="text-[10px] text-secondary tracking-widest uppercase">
                 Original
               </span>
-              <span className="text-xs text-ec font-bold">340.78 KB</span>
+              <span className="text-xs text-ec font-bold">
+                {(originalSize / 1024).toFixed(2)} KB
+              </span>
             </div>
 
             <div className="flex flex-col gap-y-2 px-4 py-4 border-b border-secondary/20">
               <span className="text-[10px] text-secondary tracking-widest uppercase">
                 Estimated
               </span>
-              <span className="text-xs text-ec font-bold">231.73 KB</span>
+              <span className="text-xs text-ec font-bold">
+                {compressedBlob
+                  ? `${(compressedSize / 1024).toFixed(2)} KB`
+                  : "--"}
+              </span>
             </div>
 
             <div className="flex flex-col gap-y-2 px-4 py-4 border-r border-secondary/20">
               <span className="text-[10px] text-secondary tracking-widest uppercase">
                 Reduction
               </span>
-              <span className="text-xs text-primary font-bold">32%</span>
+              <span className="text-xs text-primary font-bold">
+                {compressedBlob ? `${reduction.toFixed(0)}%` : "--"}
+              </span>
             </div>
 
             <div className="flex flex-col gap-y-2 px-4 py-4">
@@ -146,26 +188,30 @@ export default function RightSide() {
       <div className="flex flex-col gap-y-3 px-6">
         <button
           type="button"
-          disabled={!selectedFile}
+          disabled={!selectedFile || isCompressing}
+          onClick={onCompress}
           className={`text-xs text-ec bg-primary font-semibold
-          flex items-center justify-center gap-x-2 p-4 rounded-lg transition-colors duration-200
+          flex items-center justify-center gap-x-2 p-4 rounded-lg
+          transition-colors duration-200
           ${
-            selectedFile
+            selectedFile && !isCompressing
               ? "opacity-100 cursor-pointer hover:bg-[#8f53f6]"
               : "opacity-50 cursor-not-allowed"
           }`}
         >
           <LucideArrowRight className="w-4 h-4" />
-          Compress image
+
+          {isCompressing ? "Compressing..." : "Compress image"}
         </button>
 
         <button
           type="button"
-          disabled={!selectedFile}
+          disabled={!compressedBlob}
+          onClick={onDownload}
           className={`text-xs text-ec/70 bg-transparent font-semibold border border-secondary/20
           flex items-center justify-center gap-x-2 p-4 rounded-lg transition-colors duration-200
           ${
-            selectedFile
+            compressedBlob
               ? "opacity-100 cursor-pointer hover:border-secondary/30 hover:text-ec"
               : "opacity-50 cursor-not-allowed"
           }`}
