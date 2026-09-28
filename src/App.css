@@ -6,3 +6,35 @@ body::selection {
   background-color: #7c3aed78;
   color: #ececee;
 }
+
+.range {
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: #282c31;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #7c3aed;
+  border: 3px solid #0d0f11;
+  cursor: pointer;
+}
+
+.range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #7c3aed;
+  border: 3px solid #0d0f11;
+  cursor: pointer;
+}
+
+.range:focus {
+  outline: none;
+}

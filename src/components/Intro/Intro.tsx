@@ -12,7 +12,7 @@ export default function Intro() {
         Compress images. Keep them clean.
       </h1>
 
-      <p className="text-secondary text-sm leading-6.5 max-w-150">
+      <p className="text-secondary text-sm leading-6.5 max-w-150 tracking-wider">
         Reduce image file size without unnecessary complexity. Upload an image,
         choose the quality, and download the optimized file.
       </p>

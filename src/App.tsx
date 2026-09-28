@@ -1,6 +1,7 @@
 import Intro from "./components/Intro/Intro";
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
+import WorkSpace from "./components/WorkSpace/WorkSpace";
 
 function App() {
   return (
@@ -9,8 +10,14 @@ function App() {
 
       <main>
         <section id="intro-section">
-          <div className="px-4 xl:px-25 2xl:px-55 py-18">
+          <div className="px-4 xl:px-25 2xl:px-55 pt-18">
             <Intro />
+          </div>
+        </section>
+
+        <section id="workspace-section">
+          <div className="px-4 xl:px-25 2xl:px-55 py-9">
+            <WorkSpace />
           </div>
         </section>
       </main>
