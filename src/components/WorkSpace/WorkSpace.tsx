@@ -101,6 +101,7 @@ export default function WorkSpace() {
       <RightSide
         selectedFile={selectedFile}
         compressedBlob={compressedBlob}
+        setCompressedBlob={setCompressedBlob}
         quality={quality}
         setQuality={setQuality}
         isCompressing={isCompressing}

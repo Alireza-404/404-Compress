@@ -14,12 +14,20 @@ export default function LeftSide({
   onFileSelect,
 }: LeftSideProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFile = (file: File) => {
-    if (file.size > MAX_SIZE) return;
+    if (file.size > MAX_SIZE) {
+      setError("File size must be under 20 MB.");
+      return;
+    }
 
-    if (!ALLOWED_TYPES.includes(file.type)) return;
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setError("Only JPG, PNG and WEBP images are supported.");
+      return;
+    }
 
+    setError(null);
     onFileSelect(file);
   };
 
@@ -89,7 +97,7 @@ export default function LeftSide({
           <div className="flex flex-col items-center justify-center gap-y-4 h-full">
             <span
               className="text-secondary bg-box rounded-lg border
-            border-secondary/20 w-14 h-14 flex items-center justify-center"
+              border-secondary/20 w-14 h-14 flex items-center justify-center"
             >
               <LucideUpload className="w-5 h-5" />
             </span>
@@ -103,6 +111,15 @@ export default function LeftSide({
             <span className="text-secondary text-[11px] tracking-wider">
               Maximum file size: <span className="text-primary">20 MB</span>
             </span>
+
+            {error && (
+              <span
+                className="text-red-400 font-medium text-xs text-center px-4 py-2 rounded-lg
+               bg-red-500/5 border border-red-500/10 mx-2"
+              >
+                {error}
+              </span>
+            )}
           </div>
         )}
       </label>

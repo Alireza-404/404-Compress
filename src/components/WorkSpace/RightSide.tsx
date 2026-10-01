@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 interface RightSideProps {
   selectedFile: File | null;
   compressedBlob: Blob | null;
+  setCompressedBlob: React.Dispatch<React.SetStateAction<Blob | null>>;
   quality: number;
   setQuality: React.Dispatch<React.SetStateAction<number>>;
   isCompressing: boolean;
@@ -17,6 +18,7 @@ interface RightSideProps {
 export default function RightSide({
   selectedFile,
   compressedBlob,
+  setCompressedBlob,
   quality,
   setQuality,
   isCompressing,
@@ -115,6 +117,7 @@ export default function RightSide({
                       setFormat(item);
                       onCompress(item);
                       setIsOpen(false);
+                      setCompressedBlob(null);
                     }}
                     className={`w-full px-3 py-2 rounded-md text-left text-[11.5px]
                       font-medium transition-colors ${
