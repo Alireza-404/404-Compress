@@ -1,7 +1,8 @@
 import Intro from "./components/Intro/Intro";
 import Navbar from "./components/Navbar/Navbar";
-import "./App.css";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
+
+import "./App.css";
 
 function App() {
   return (
