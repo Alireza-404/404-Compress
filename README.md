@@ -35,6 +35,6 @@ Clone the repository and install the dependencies:
 
 ```bash
 git clone https://github.com/Alireza-404/404-Compressor.git
-cd 404-Compressor
+cd my-app
 npm install
 ```
