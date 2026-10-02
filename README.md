@@ -1,4 +1,4 @@
-# 🗜️ 404 Compressor
+# 404 Compressor
 
 A lightweight and modern **image compression tool** built with **React, TypeScript, and Vite**.
 
