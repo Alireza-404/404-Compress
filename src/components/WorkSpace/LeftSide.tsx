@@ -70,7 +70,7 @@ export default function LeftSide({
         }}
         className="w-full h-160 bg-[#08090a] border border-dashed
         border-secondary/30 rounded-lg hover:border-secondary/40
-        hover:bg-[#08090a]/75 transition-colors duration-200 overflow-hidden"
+        hover:bg-[#08090a]/75 transition-colors duration-200 overflow-hidden cursor-pointer"
       >
         <input
           type="file"
